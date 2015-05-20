@@ -20,7 +20,7 @@ namespace DS3{
 		static int stick(StickNum);	// 指定されたスティックの状態を返す 
 		virtual ~RasPiDS3();
 	private:
-		ifstream JoyStick;
+		fstream JoyStick;
 		bool loopFlag;
 		static bool threadFlag = false;
 		thread readThread;
