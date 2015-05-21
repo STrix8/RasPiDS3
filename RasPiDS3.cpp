@@ -10,7 +10,7 @@
 using namespace std;
 using namespace DS3;
 
-RasPiDS3::RasPiDS3(string fileName = "/dev/input/js0") {
+RasPiDS3::RasPiDS3(const char* fileName = "/dev/input/js0") {
 	for (int i = 0; i < ButtonsNum; ++i) {
 		readButtonData[i] = false;
 		buttonData[i] = false;

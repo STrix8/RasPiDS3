@@ -11,8 +11,8 @@ namespace DS3{
 	enum SticksNum {LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, NumSticks};
 	class RasPiDS3 {
 	public:
-//		RasPiDS3();
-		RasPiDS3(string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+//		RasPiDS3(string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		RasPiDS3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 
