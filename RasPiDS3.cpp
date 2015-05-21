@@ -1,5 +1,3 @@
-// -*- coding:utf-8 -*-
-
 #include <iostream>
 #include <fstream>
 #include <string>

@@ -1,4 +1,3 @@
-// -*- coding:utf-8 -*- 
 // RaspberryPiでDualShock3の信号を読取る 
 #pragma once
 
