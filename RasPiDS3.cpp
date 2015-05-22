@@ -8,7 +8,10 @@
 using namespace std;
 using namespace DS3;
 
-RasPiDS3::RasPiDS3(const char* fileName = "/dev/input/js0") {
+RasPiDS3::RasPiDS3() {
+	RasPiDS3("/dev/input/js0");
+}
+RasPiDS3::RasPiDS3(string filename) {
 	loopFlag = false;
 	threadFlag = false;
 	for (int i = 0; i < ButtonsNum; ++i) {
@@ -89,7 +92,7 @@ void RasPiDS3::update() {
 	memcpy(stickData, readStickData, sizeof(stickData));
 }
 
-static bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag = false) {
+static bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
 	if (only) {
 		for (int i = 0; i < ButtonsNum; ++i) {
 			if (buttonData[i]) {

@@ -10,12 +10,12 @@ namespace DS3{
 	enum SticksNum {LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, NumSticks};
 	class RasPiDS3 {
 	public:
-//		RasPiDS3(string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		RasPiDS3();
 		RasPiDS3(std::string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 
-		static bool button(ButtonsNum, bool);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
+		static bool button(ButtonsNum, bool onlyFlag = false);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
 		static int stick(SticksNum);	// 指定されたスティックの状態を返す 
 		virtual ~RasPiDS3();
 	private:
