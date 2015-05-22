@@ -10,11 +10,11 @@ int main(void) {
 	Controller.update();
 	for (int i = 4096; --i; Controller.update()) {
 		for (int j = 0; j < NumButtons; ++j) {
-			if (Controller.button((SticksNum)j))
+			if (Controller.button(ButtonsNum(j)))
 				cout << j << endl;
 		}
 		for (int j = 0; j < NumSticks; ++j) {
-			cout << Controller.stick(j) << " ";
+			cout << Controller.stick(SticksNum(j)) << " ";
 		}
 		cout << endl;
 	}
