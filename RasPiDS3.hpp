@@ -11,21 +11,21 @@ namespace DS3{
 	class RasPiDS3 {
 	public:
 //		RasPiDS3(string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
-		RasPiDS3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		RasPiDS3(std::string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 
-		static bool button(ButtonNum, bool);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
-		static int stick(StickNum);	// 指定されたスティックの状態を返す 
+		static bool button(ButtonsNum, bool);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
+		static int stick(SticksNum);	// 指定されたスティックの状態を返す 
 		virtual ~RasPiDS3();
 	private:
-		fstream JoyStick;
+		std::fstream JoyStick;
 		bool loopFlag;
-		static bool threadFlag = false;
-		thread readThread;
-		bool readButtonData[NumButtons];
-		static int readStickData[NumSticks] = {};
-		bool buttonData[NumButtons];
-		static int stickData[NumSticks] = {};
+		static bool threadFlag;
+		std::thread readThread;
+		static bool readButtonData[NumButtons];
+		static int readStickData[NumSticks];
+		static bool buttonData[NumButtons];
+		static int stickData[NumSticks];
 	};
 }

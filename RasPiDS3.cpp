@@ -9,6 +9,8 @@ using namespace std;
 using namespace DS3;
 
 RasPiDS3::RasPiDS3(const char* fileName = "/dev/input/js0") {
+	loopFlag = false;
+	threadFlag = false;
 	for (int i = 0; i < ButtonsNum; ++i) {
 		readButtonData[i] = false;
 		buttonData[i] = false;
@@ -40,6 +42,8 @@ RasPiDS3::RasPiDS3(const char* fileName = "/dev/input/js0") {
 void RasPiDS3::read() {
 	vector<char> data;
 	char c;
+	for (int i = NumButtons; i--; readButtonData[i] = false);
+	for (int i = NumSticks; i--; readStickData[i] = 0);
 	while (true) {
 		JoyStick.get(c);
 		data.push_back(c);
