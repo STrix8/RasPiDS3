@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <thread>
-#include <cstdlib>
+#include <cstring>
+#include <cassert>
+#include <vector>
 #include "RasPiDS3.hpp"
 
 using namespace std;
@@ -11,14 +12,14 @@ using namespace DS3;
 RasPiDS3::RasPiDS3() {
 	RasPiDS3("/dev/input/js0");
 }
-RasPiDS3::RasPiDS3(string filename) {
+RasPiDS3::RasPiDS3(const char* filename) {
 	loopFlag = false;
 	threadFlag = false;
-	for (int i = 0; i < ButtonsNum; ++i) {
+	for (int i = 0; i < NumButtons; ++i) {
 		readButtonData[i] = false;
 		buttonData[i] = false;
 	} 
-	for (int i = 0; i < SticksNum; ++i) {
+	for (int i = 0; i < NumSticks; ++i) {
 		readStickData[i] = false;
 		stickData[i] = false;
 	}
@@ -27,18 +28,18 @@ RasPiDS3::RasPiDS3(string filename) {
 	cout << "Connect DualShock3." << endl;
 	for (;;) {
 		try {
-			JoyStick.open(fileName);
+			JoyStick.open(filename);
 			if (JoyStick.is_open()) {
 				cout << "Connected." << endl;
 				break;
 			}
 		}
-		catch {
+		catch (...) {
 			continue;
 		}
 	}
 	loopFlag = true;
-	readThread = thread(readLoop);
+	readThread = thread([&]{ readLoop(); });
 	threadFlag = true;
 }
 
@@ -52,7 +53,7 @@ void RasPiDS3::read() {
 		data.push_back(c);
 		if (data.size() == 8) {
 			if (data[6] == 0x01) {
-				for (int i = 0; i < ButtonsNum; ++i) {
+				for (int i = 0; i < NumButtons; ++i) {
 					if (data[7] == i) {
 						if (data[4] == 0x00) {
 							readButtonData[i] = false;
@@ -67,7 +68,7 @@ void RasPiDS3::read() {
 					assert(data.empty());
 					break;
 				}
-				for (int i = 0; i < SticksNum; ++i) {
+				for (int i = 0; i < NumSticks; ++i) {
 					if (data[7] == i) {
 						readStickData[i] = data[5];
 						if (readStickData[i] >= 128) {
@@ -92,9 +93,9 @@ void RasPiDS3::update() {
 	memcpy(stickData, readStickData, sizeof(stickData));
 }
 
-static bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
-	if (only) {
-		for (int i = 0; i < ButtonsNum; ++i) {
+bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
+	if (onlyFlag) {
+		for (int i = 0; i < NumButtons; ++i) {
 			if (buttonData[i]) {
 				if (i != Button)
 					return false;
@@ -104,7 +105,7 @@ static bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
 	return buttonData[Button];
 }
 
-static int RasPiDS3::stick(SticksNum Stick) {
+int RasPiDS3::stick(SticksNum Stick) {
 	return stickData[Stick];
 }
 

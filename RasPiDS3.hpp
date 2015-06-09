@@ -11,7 +11,7 @@ namespace DS3{
 	class RasPiDS3 {
 	public:
 		RasPiDS3();
-		RasPiDS3(std::string);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		RasPiDS3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 
