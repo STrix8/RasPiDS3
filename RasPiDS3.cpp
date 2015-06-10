@@ -9,6 +9,8 @@
 using namespace std;
 using namespace DS3;
 
+RasPiDS3 readDs3;
+
 RasPiDS3::RasPiDS3() {
 	RasPiDS3("/dev/input/js0");
 }
@@ -116,6 +118,3 @@ RasPiDS3::~RasPiDS3() {
 	threadFlag = false;
 }
 
-int main(void) {
-	return 0;
-}
