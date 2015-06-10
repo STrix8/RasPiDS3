@@ -9,14 +9,19 @@
 using namespace std;
 using namespace DS3;
 
-RasPiDS3 readDs3;
+bool RasPiDS3::threadFlag = false;
+bool RasPiDS3::readButtonData[NumButtons] = {};
+int RasPiDS3::readStickData[NumSticks] = {};
+bool RasPiDS3::buttonData[NumButtons] = {};
+int RasPiDS3::stickData[NumSticks] = {};
+
 
 RasPiDS3::RasPiDS3() {
 	RasPiDS3("/dev/input/js0");
 }
+
 RasPiDS3::RasPiDS3(const char* filename) {
 	loopFlag = false;
-	threadFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
 		readButtonData[i] = false;
 		buttonData[i] = false;
@@ -43,6 +48,10 @@ RasPiDS3::RasPiDS3(const char* filename) {
 	loopFlag = true;
 	readThread = thread([&]{ readLoop(); });
 	threadFlag = true;
+}
+
+RasPiDS3::RasPiDS3(int sub) {
+	;
 }
 
 void RasPiDS3::read() {

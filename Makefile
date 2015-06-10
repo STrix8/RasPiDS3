@@ -1,17 +1,8 @@
-CXXFLAGS	= -std=c++11
-OBJS		= test.o RasPiDS3.a 
-
-test : $(OBJS)
-	g++ -o RasPiDS3 $(OBJS)
-
-RasPiDS3.a : RasPiDS3.o
-	ar r $@ $<
-	ranlib $@
-
-.cpp.o : 
-	g++ -c $< -g -02
-
-all : test
-
-clean :
-	rm -rf *.o *.a test
+test: test.o RasPiDS3.o
+	g++ -Wall -o test test.o RasPiDS3.o -std=c++11
+RasPiDS3.o: RasPiDS3.cpp
+	g++ -Wall -c RasPiDS3.cpp -std=c++11
+test.o: test.cpp
+	g++ -Wall -c test.cpp -std=c++11
+clean:
+	rm -f *.o test
