@@ -115,3 +115,7 @@ RasPiDS3::~RasPiDS3() {
 	JoyStick.close();
 	threadFlag = false;
 }
+
+int main(void) {
+	return 0;
+}
