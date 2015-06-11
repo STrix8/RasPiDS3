@@ -14,6 +14,7 @@ namespace DS3{
 		RasPiDS3();
 		RasPiDS3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		RasPiDS3(int);
+		void init(const char*);
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 

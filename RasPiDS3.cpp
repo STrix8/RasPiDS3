@@ -17,10 +17,18 @@ int RasPiDS3::stickData[NumSticks] = {};
 
 
 RasPiDS3::RasPiDS3() {
-	RasPiDS3("/dev/input/js0");
+	init("/dev/input/js0");
 }
 
-RasPiDS3::RasPiDS3(const char* filename) {
+RasPiDS3::RasPiDS3(const char* fileName) {
+	init(fileName);
+}
+
+RasPiDS3::RasPiDS3(int sub) {
+	;
+}
+
+void RasPiDS3::init(const char* fileName) {
 	loopFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
 		readButtonData[i] = false;
@@ -35,7 +43,7 @@ RasPiDS3::RasPiDS3(const char* filename) {
 	cout << "Connect DualShock3." << endl;
 	for (;;) {
 		try {
-			JoyStick.open(filename);
+			JoyStick.open(fileName);
 			if (JoyStick.is_open()) {
 				cout << "Connected." << endl;
 				break;
@@ -46,12 +54,9 @@ RasPiDS3::RasPiDS3(const char* filename) {
 		}
 	}
 	loopFlag = true;
+	cout << loopFlag << endl;
 	readThread = thread([&]{readLoop();});
 	threadFlag = true;
-}
-
-RasPiDS3::RasPiDS3(int sub) {
-	;
 }
 
 void RasPiDS3::read() {
@@ -59,7 +64,8 @@ void RasPiDS3::read() {
 	char c;
 
 	while (true) {
-		JoyStick.get(c);
+		c = JoyStick.get();
+		cout << c << endl;
 		data.push_back(c);
 		if (data.size() == 8) {
 			if (data[6] == 0x01) {
@@ -93,7 +99,10 @@ void RasPiDS3::read() {
 }
 
 void RasPiDS3::readLoop() {
+	cout << "readLoop1" << endl;
+	cout << loopFlag << endl;
 	while (loopFlag) {
+		cout << "readLoop2" << endl;
 		read();
 	}
 }
@@ -116,7 +125,8 @@ bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
 }
 
 int RasPiDS3::stick(SticksNum Stick) {
-	return stickData[Stick];
+//	return stickData[Stick];
+	return readStickData[Stick];
 }
 
 RasPiDS3::~RasPiDS3() {
