@@ -55,8 +55,8 @@ void RasPiDS3::init(const char* fileName) {
 	}
 	loopFlag = true;
 	cout << loopFlag << endl;
-	readThread = thread([&]{readLoop();});
 	threadFlag = true;
+	readThread = thread([&]{ readLoop(); });
 }
 
 void RasPiDS3::read() {

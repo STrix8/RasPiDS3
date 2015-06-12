@@ -8,7 +8,7 @@ int main(void) {
 	cout << "Start" << endl;
 	RasPiDS3 Controller;
 	Controller.update();
-	for (int i = 16; --i; Controller.update()) {
+	for (int i = 2048; --i; Controller.update()) {
 		cout << i << " ";
 		for (int j = 0; j < NumButtons; ++j) {
 			if (Controller.button(ButtonsNum(j)))
