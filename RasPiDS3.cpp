@@ -64,7 +64,6 @@ void RasPiDS3::read() {
 
 	while (true) {
 		c = JoyStick.get();
-		cout << c << endl;
 		data.push_back(c);
 		if (data.size() == 8) {
 			if (data[6] == 0x01) {
