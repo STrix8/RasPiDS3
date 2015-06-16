@@ -54,7 +54,6 @@ void RasPiDS3::init(const char* fileName) {
 		}
 	}
 	loopFlag = true;
-	cout << loopFlag << endl;
 	threadFlag = true;
 	readThread = thread([&]{ readLoop(); });
 }
@@ -99,10 +98,7 @@ void RasPiDS3::read() {
 }
 
 void RasPiDS3::readLoop() {
-	cout << "readLoop1" << endl;
-	cout << loopFlag << endl;
 	while (loopFlag) {
-		cout << "readLoop2" << endl;
 		read();
 	}
 }
@@ -130,7 +126,6 @@ int RasPiDS3::stick(SticksNum Stick) {
 }
 
 RasPiDS3::~RasPiDS3() {
-	cout << "End" << endl;
 	loopFlag = false;
 	readThread.join();
 	JoyStick.close();
