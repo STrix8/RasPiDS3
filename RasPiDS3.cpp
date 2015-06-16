@@ -15,7 +15,6 @@ int RasPiDS3::readStickData[NumSticks] = {};
 bool RasPiDS3::buttonData[NumButtons] = {};
 int RasPiDS3::stickData[NumSticks] = {};
 
-
 RasPiDS3::RasPiDS3() {
 	init("/dev/input/js0");
 }
@@ -23,11 +22,11 @@ RasPiDS3::RasPiDS3() {
 RasPiDS3::RasPiDS3(const char* fileName) {
 	init(fileName);
 }
-
+/*
 RasPiDS3::RasPiDS3(int sub) {
 	;
 }
-
+*/
 void RasPiDS3::init(const char* fileName) {
 	loopFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
