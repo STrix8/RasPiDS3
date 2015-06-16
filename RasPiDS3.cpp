@@ -62,36 +62,32 @@ void RasPiDS3::read() {
 	vector<char> data;
 	char c;
 
-	while (true) {
+	while (data.size() != 8) {
 		c = JoyStick.get();
 		data.push_back(c);
-		if (data.size() == 8) {
-			if (data[6] == 0x01) {
-				for (int i = 0; i < NumButtons; ++i) {
-					if (data[7] == i) {
-						if (data[4] == 0x00) {
-							readButtonData[i] = false;
-						} else if (data[4] == 0x01) {
-							readButtonData[i] = true;
-						}
-					}
-				}
-			} else if (data[6] == 0x02) {
-				if (data[7] > 0x10) {
-					data.clear();
-					assert(data.empty());
-					break;
-				}
-				for (int i = 0; i < NumSticks; ++i) {
-					if (data[7] == i) {
-						readStickData[i] = data[5];
-						if (readStickData[i] >= 128) {
-							readStickData[i] -= 256;
-						}
-					}
+	}
+	if (data[6] == 0x01) {
+		for (int i = 0; i < NumButtons; ++i) {
+			if (data[7] == i) {
+				if (data[4] == 0x00) {
+					readButtonData[i] = false;
+				} else if (data[4] == 0x01) {
+					readButtonData[i] = true;
 				}
 			}
-			return;
+		}
+	} else if (data[6] == 0x02) {
+		if (data[7] > 0x10) {
+			data.clear();
+			assert(data.empty());
+		}
+		for (int i = 0; i < NumSticks; ++i) {
+			if (data[7] == i) {
+				readStickData[i] = data[5];
+				if (readStickData[i] >= 128) {
+					readStickData[i] -= 256;
+				}
+			}
 		}
 	}
 }
