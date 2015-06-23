@@ -6,14 +6,14 @@
 #include <thread>
 
 namespace RPDS3{
-	const int sub = 0;
+//	const int sub = 0;
 	enum ButtonsNum {SELECT, LEFT_STICK, RIGHT_STICK, START, UP, RIGHT, DOWN, LEFT, L2, R2, L1, R1, TRIANGLE, CIRCLE, CROSS, SQUARE, NumButtons};
 	enum SticksNum {LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, NumSticks};
 	class RasPiDS3 {
 	public:
 		RasPiDS3();
 		RasPiDS3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
-		RasPiDS3(int);
+//		RasPiDS3(int);	 
 		void init(const char*);
 		void read();
 		void readLoop();

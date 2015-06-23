@@ -15,7 +15,6 @@ int RasPiDS3::readStickData[NumSticks] = {};
 bool RasPiDS3::buttonData[NumButtons] = {};
 int RasPiDS3::stickData[NumSticks] = {};
 
-
 RasPiDS3::RasPiDS3() {
 	init("/dev/input/js0");
 }
@@ -23,11 +22,11 @@ RasPiDS3::RasPiDS3() {
 RasPiDS3::RasPiDS3(const char* fileName) {
 	init(fileName);
 }
-
+/*
 RasPiDS3::RasPiDS3(int sub) {
 	;
 }
-
+*/
 void RasPiDS3::init(const char* fileName) {
 	loopFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
@@ -54,7 +53,6 @@ void RasPiDS3::init(const char* fileName) {
 		}
 	}
 	loopFlag = true;
-	cout << loopFlag << endl;
 	threadFlag = true;
 	readThread = thread([&]{ readLoop(); });
 }
@@ -63,46 +61,38 @@ void RasPiDS3::read() {
 	vector<char> data;
 	char c;
 
-	while (true) {
+	while (data.size() != 8) {
 		c = JoyStick.get();
-		cout << c << endl;
 		data.push_back(c);
-		if (data.size() == 8) {
-			if (data[6] == 0x01) {
-				for (int i = 0; i < NumButtons; ++i) {
-					if (data[7] == i) {
-						if (data[4] == 0x00) {
-							readButtonData[i] = false;
-						} else if (data[4] == 0x01) {
-							readButtonData[i] = true;
-						}
-					}
-				}
-			} else if (data[6] == 0x02) {
-				if (data[7] > 0x10) {
-					data.clear();
-					assert(data.empty());
-					break;
-				}
-				for (int i = 0; i < NumSticks; ++i) {
-					if (data[7] == i) {
-						readStickData[i] = data[5];
-						if (readStickData[i] >= 128) {
-							readStickData[i] -= 256;
-						}
-					}
+	}
+	if (data[6] == 0x01) {
+		for (int i = 0; i < NumButtons; ++i) {
+			if (data[7] == i) {
+				if (data[4] == 0x00) {
+					readButtonData[i] = false;
+				} else if (data[4] == 0x01) {
+					readButtonData[i] = true;
 				}
 			}
-			return;
+		}
+	} else if (data[6] == 0x02) {
+		if (data[7] > 0x10) {
+			data.clear();
+			assert(data.empty());
+		}
+		for (int i = 0; i < NumSticks; ++i) {
+			if (data[7] == i) {
+				readStickData[i] = data[5];
+				if (readStickData[i] >= 128) {
+					readStickData[i] -= 256;
+				}
+			}
 		}
 	}
 }
 
 void RasPiDS3::readLoop() {
-	cout << "readLoop1" << endl;
-	cout << loopFlag << endl;
 	while (loopFlag) {
-		cout << "readLoop2" << endl;
 		read();
 	}
 }
@@ -130,7 +120,6 @@ int RasPiDS3::stick(SticksNum Stick) {
 }
 
 RasPiDS3::~RasPiDS3() {
-	cout << "End" << endl;
 	loopFlag = false;
 	readThread.join();
 	JoyStick.close();
