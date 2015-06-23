@@ -7,7 +7,7 @@
 #include "RasPiDS3.hpp"
 
 using namespace std;
-using namespace DS3;
+using namespace RPDS3;
 
 bool RasPiDS3::threadFlag = false;
 bool RasPiDS3::readButtonData[NumButtons] = {};

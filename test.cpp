@@ -2,7 +2,7 @@
 #include "RasPiDS3.hpp"
 
 using namespace std;
-using namespace DS3;
+using namespace RPDS3;
 
 int main(void) {
 	cout << "Start" << endl;
