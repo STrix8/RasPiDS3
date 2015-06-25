@@ -28,6 +28,8 @@ RasPiDS3::RasPiDS3(int sub) {
 }
 */
 void RasPiDS3::init(const char* fileName) {
+	if (threadFlag)
+		return;
 	loopFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
 		readButtonData[i] = false;
@@ -37,8 +39,6 @@ void RasPiDS3::init(const char* fileName) {
 		readStickData[i] = false;
 		stickData[i] = false;
 	}
-	if (threadFlag)
-		return;
 	cout << "Connect DualShock3." << endl;
 	for (;;) {
 		try {
