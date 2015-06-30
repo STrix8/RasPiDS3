@@ -2,7 +2,6 @@
 #pragma once
 
 #include <fstream>
-#include <string>
 #include <thread>
 
 namespace RPDS3{
