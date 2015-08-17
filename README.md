@@ -9,6 +9,7 @@ C++11に対応したコンパイラでつかおうね
 
 RasPiDS3クラスのインスタンスを作って使ってください。
 
+RasPiとDualShock3のペアリングは http://junkroom2cyberrobotics.logspot.jp/2013/03/raspberry-pi-dualshock3-bluetooth.html を参考にするといいかもしれない
 
 
 void RPDS3::RasPiDS3::update(); ボタン、スティックの情報が更新されます。こまめに呼んでやってください。
