@@ -6,7 +6,7 @@ using namespace RPDS3;
 
 int main(void) {
 	cout << "Start" << endl;
-	RasPiDS3 Controller;
+	DualShock3 Controller;
 	Controller.update();
 	for (int i = 2048; --i; Controller.update()) {
 		cout << i << " ";

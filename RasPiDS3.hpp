@@ -7,17 +7,17 @@
 namespace RPDS3{
 	enum ButtonsNum {SELECT, LEFT_STICK, RIGHT_STICK, START, UP, RIGHT, DOWN, LEFT, L2, R2, L1, R1, TRIANGLE, CIRCLE, CROSS, SQUARE, NumButtons};
 	enum SticksNum {LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, NumSticks};
-	class RasPiDS3 {
+	class DualShock3 {
 	public:
-		RasPiDS3();
-		RasPiDS3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		DualShock3();
+		DualShock3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		void init(const char*);
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 
 		static bool button(ButtonsNum, bool onlyFlag = false);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
 		static int stick(SticksNum);	// 指定されたスティックの状態を返す 
-		virtual ~RasPiDS3();
+		virtual ~DualShock3();
 	private:
 		std::fstream JoyStick;
 		bool loopFlag;

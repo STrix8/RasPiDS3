@@ -9,21 +9,21 @@
 using namespace std;
 using namespace RPDS3;
 
-bool RasPiDS3::threadFlag = false;
-bool RasPiDS3::readButtonData[NumButtons] = {};
-int RasPiDS3::readStickData[NumSticks] = {};
-bool RasPiDS3::buttonData[NumButtons] = {};
-int RasPiDS3::stickData[NumSticks] = {};
+bool DualShock3::threadFlag = false;
+bool DualShock3::readButtonData[NumButtons] = {};
+int DualShock3::readStickData[NumSticks] = {};
+bool DualShock3::buttonData[NumButtons] = {};
+int DualShock3::stickData[NumSticks] = {};
 
-RasPiDS3::RasPiDS3() {
+DualShock3::DualShock3() {
 	init("/dev/input/js0");
 }
 
-RasPiDS3::RasPiDS3(const char* fileName) {
+DualShock3::DualShock3(const char* fileName) {
 	init(fileName);
 }
 
-void RasPiDS3::init(const char* fileName) {
+void DualShock3::init(const char* fileName) {
 	if (threadFlag)
 		return;
 	loopFlag = false;
@@ -53,7 +53,7 @@ void RasPiDS3::init(const char* fileName) {
 	readThread = thread([&]{ readLoop(); });
 }
 
-void RasPiDS3::read() {
+void DualShock3::read() {
 	vector<char> data;
 	char c;
 
@@ -87,18 +87,18 @@ void RasPiDS3::read() {
 	}
 }
 
-void RasPiDS3::readLoop() {
+void DualShock3::readLoop() {
 	while (loopFlag) {
 		read();
 	}
 }
 
-void RasPiDS3::update() {
+void DualShock3::update() {
 	memcpy(buttonData, readButtonData, sizeof(buttonData));
 	memcpy(stickData, readStickData, sizeof(stickData));
 }
 
-bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
+bool DualShock3::button(ButtonsNum Button, bool onlyFlag) {
 	if (onlyFlag) {
 		for (int i = 0; i < NumButtons; ++i) {
 			if (buttonData[i]) {
@@ -110,12 +110,12 @@ bool RasPiDS3::button(ButtonsNum Button, bool onlyFlag) {
 	return buttonData[Button];
 }
 
-int RasPiDS3::stick(SticksNum Stick) {
+int DualShock3::stick(SticksNum Stick) {
 //	return stickData[Stick];
 	return readStickData[Stick];
 }
 
-RasPiDS3::~RasPiDS3() {
+DualShock3::~DualShock3() {
 	loopFlag = false;
 	readThread.join();
 	JoyStick.close();
