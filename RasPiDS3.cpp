@@ -49,6 +49,7 @@ void DualShock3::init(const char* fileName) {
 			continue;
 		}
 	}
+	yReverse = false;
 	loopFlag = true;
 	threadFlag = true;
 	readThread = thread([&]{ readLoop(); });
@@ -100,6 +101,10 @@ void DualShock3::update() {
 	memcpy(stickData, readStickData, sizeof(stickData));
 }
 
+void DualShock3::yReverseSet(bool setVar) {
+	yReverse = setVar;
+}
+
 bool DualShock3::button(ButtonsNum Button, bool onlyFlag) {
 	if (onlyFlag) {
 		for (int i = 0; i < NumButtons; ++i) {
@@ -113,8 +118,10 @@ bool DualShock3::button(ButtonsNum Button, bool onlyFlag) {
 }
 
 int DualShock3::stick(SticksNum Stick) {
-//	return stickData[Stick];
-	return readStickData[Stick];
+	if (yReverse && (Stick == LEFT_Y || Stick == RIGHT_Y)) {
+		return -stickData[Stick];
+	}
+	return stickData[Stick];
 }
 
 DualShock3::~DualShock3() {
