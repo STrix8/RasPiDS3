@@ -8,8 +8,7 @@ int main(void) {
 	cout << "Start" << endl;
 	DualShock3 Controller;
 	Controller.update();
-	for (int i = 2048; --i; Controller.update()) {
-		cout << i << " ";
+	UPDATELOOP (Controller, !Controller.button(START)) {
 		for (int j = 0; j < NumButtons; ++j) {
 			if (Controller.button(ButtonsNum(j)))
 				cout << j << endl;

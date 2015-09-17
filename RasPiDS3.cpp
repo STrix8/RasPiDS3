@@ -124,10 +124,10 @@ DualShock3::~DualShock3() {
 	threadFlag = false;
 }
 
-bool DualShock3::stand(ButtonsNum Button) {
+bool DualShock3::press(ButtonsNum Button) {
 	return !beforeButtonData[Button] && buttonData[Button];
 }
 
-bool DualShock3::fall(ButtonsNum Button) {
+bool DualShock3::release(ButtonsNum Button) {
 	return beforeButtonData[Button] && !buttonData[Button];
 }

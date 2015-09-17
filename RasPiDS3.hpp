@@ -18,8 +18,8 @@ namespace RPDS3{
 		void readLoop();
 		void update();		// コントローラの状態を更新 
 		static bool button(ButtonsNum, bool onlyFlag = false);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
-		static bool stand(ButtonsNum);
-		static bool fall(ButtonsNum);
+		static bool press(ButtonsNum);
+		static bool release(ButtonsNum);
 		static int stick(SticksNum);	// 指定されたスティックの状態を返す 
 		virtual ~DualShock3();
 	private:
