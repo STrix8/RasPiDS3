@@ -14,6 +14,7 @@ bool DualShock3::readButtonData[NumButtons] = {};
 int DualShock3::readStickData[NumSticks] = {};
 bool DualShock3::buttonData[NumButtons] = {};
 int DualShock3::stickData[NumSticks] = {};
+bool DualShock3::beforeButtonData[NumButtons] = {};
 
 DualShock3::DualShock3() {
 	init("/dev/input/js0");
@@ -94,6 +95,7 @@ void DualShock3::readLoop() {
 }
 
 void DualShock3::update() {
+	memcpy(beforeButtonData, buttonData, sizeof(beforeButtonData));
 	memcpy(buttonData, readButtonData, sizeof(buttonData));
 	memcpy(stickData, readStickData, sizeof(stickData));
 }
@@ -122,3 +124,10 @@ DualShock3::~DualShock3() {
 	threadFlag = false;
 }
 
+bool DualShock3::stand(ButtonsNum Button) {
+	return !beforeButtonData[Button] && buttonData[Button];
+}
+
+bool DualShock3::fall(ButtonsNum Button) {
+	return beforeButtonData[Button] && !buttonData[Button];
+}
