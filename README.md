@@ -20,7 +20,7 @@ void RPDS3::DualShock3::precisionMode(bool precision = true); 精密モードの
 
 bool RPDS3::DualShock3::button(ButtonsNum button, bool onlyFlag = false); 0~15, または SELECT, LEFT_STICK, RIGHT_STICK, START, UP, RIGHT, DOWN, LEFT, L2, R2, L1, R1, TRIANGLE, CIRCLE, CROSS, SQUARE でボタンを指定するとそのボタンが押されてるかどうかを返します(押されてるとtrue) 第二引数にtrueを入れると第一引数で指定されたボタンだけが押されている時のみtrueを返します。
 
-int RPDS3::DualShock3::stick(SticksNum stick); 0~3, またはLEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y でスティックの軸を指定するとその軸の傾きが返ってきます。
+int RPDS3::DualShock3::stick(SticksNum stick); 0~5, またはLEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, LEFT_T, RIGHT_T でスティックの軸またはL2かR2を指定するとその軸の傾きやボタンがどのくらい押し込まれているかが返ってきます。
 
 int RPDS3::DualShock3::acceleration(AxisNum axis); 0~2またはX_AXIS, Y_AXIS, Z_AXISで加速度の軸を指定するとその軸の加速度が返ってきます
 
