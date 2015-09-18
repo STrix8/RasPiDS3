@@ -16,6 +16,10 @@ int main(void) {
 		for (int j = 0; j < NumSticks; ++j) {
 			cout << Controller.stick(SticksNum(j)) << " ";
 		}
+		cout << " ";
+		for (int j = 0; j < NumAxis; ++j) {
+			cout << Controller.acceleration(AxisNum(j)) << " ";
+		}
 		cout << endl;
 	}
 	return 0;

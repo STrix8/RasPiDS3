@@ -12,8 +12,10 @@ using namespace RPDS3;
 bool DualShock3::threadFlag = false;
 bool DualShock3::readButtonData[NumButtons] = {};
 int DualShock3::readStickData[NumSticks] = {};
+int DualShock3::readAxisData[NumAxis] = {};
 bool DualShock3::buttonData[NumButtons] = {};
 int DualShock3::stickData[NumSticks] = {};
+int DualShock3::axisData[NumAxis] = {};
 bool DualShock3::beforeButtonData[NumButtons] = {};
 bool DualShock3::precisionFlag = false;
 
@@ -92,15 +94,30 @@ void DualShock3::read() {
 				index -= 8;
 			}
 			readStickData[index] = data[5];
-			if (readStickData[index] >= 128) 
-				readStickData[index] -= 256;
 			if (precisionFlag) {
 				readStickData[index] *= 0x100;
 				readStickData[index] += data[4];
-				if (data[7] != index) 
+				if (readStickData[index] >= 32768) 
+					readStickData[index] -= 65536;
+				if (data[7] != index)
 					readStickData[index] += 32767;
-			} else if (data[7] != index) 
-				readStickData[index] += 128;
+			} else {
+				if (readStickData[index] >= 128) 
+					readStickData[index] -= 256;
+				if (data[7] != index)
+					readStickData[index] += 128;
+			}
+		}
+		if (data[7] >= 0x17 && data[7] <= 0x19) {
+			int index = data[7] - 0x17;
+			if (precisionFlag)
+				readAxisData[index] = data[4] + data[5] * 0x100;
+				if (readAxisData[index] >= 32768) 
+					readAxisData[index] -= 65536;
+			else
+				readAxisData[index] = data[5];
+				if (readAxisData[index] >= 128)
+					readAxisData[index] -= 256;
 		}
 	}
 }
@@ -115,6 +132,7 @@ void DualShock3::update() {
 	memcpy(beforeButtonData, buttonData, sizeof(beforeButtonData));
 	memcpy(buttonData, readButtonData, sizeof(buttonData));
 	memcpy(stickData, readStickData, sizeof(stickData));
+	memcpy(axisData, readAxisData, sizeof(axisData));
 }
 
 void DualShock3::yReverseSet(bool setVar) {
@@ -138,6 +156,10 @@ int DualShock3::stick(SticksNum Stick) {
 		return -stickData[Stick];
 	}
 	return stickData[Stick];
+}
+
+int DualShock3::acceleration(AxisNum Axis) {
+	return axisData[Axis];
 }
 
 DualShock3::~DualShock3() {
