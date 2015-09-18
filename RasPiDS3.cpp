@@ -15,18 +15,23 @@ int DualShock3::readStickData[NumSticks] = {};
 bool DualShock3::buttonData[NumButtons] = {};
 int DualShock3::stickData[NumSticks] = {};
 bool DualShock3::beforeButtonData[NumButtons] = {};
+bool DualShock3::precisionFlag = false;
 
 DualShock3::DualShock3() {
-	init("/dev/input/js0");
+	init("/dev/input/js0", false);
 }
 
-DualShock3::DualShock3(const char* fileName) {
-	init(fileName);
+DualShock3::DualShock3(bool precision) {
+	init("/dev/input/js0", precision);
+}
+DualShock3::DualShock3(const char* fileName, bool precision) {
+	init(fileName, precision);
 }
 
-void DualShock3::init(const char* fileName) {
+void DualShock3::init(const char* fileName, bool precision) {
 	if (threadFlag)
 		return;
+	precisionFlag = precision;
 	loopFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
 		readButtonData[i] = false;
@@ -55,6 +60,10 @@ void DualShock3::init(const char* fileName) {
 	readThread = thread([&]{ readLoop(); });
 }
 
+void DualShock3::precisionMode(bool precision) {
+	precisionFlag = precision;
+}
+
 void DualShock3::read() {
 	vector<char> data;
 	char c;
@@ -64,13 +73,11 @@ void DualShock3::read() {
 		data.push_back(c);
 	}
 	if (data[6] == 0x01) {
-		for (int i = 0; i < NumButtons; ++i) {
-			if (data[7] == i) {
-				if (data[4] == 0x00) {
-					readButtonData[i] = false;
-				} else if (data[4] == 0x01) {
-					readButtonData[i] = true;
-				}
+		if (data[7] >= 0 && data[7] <= NumButtons) {
+			if (data[4] == 0x00) {
+				readButtonData[i] = false;
+			} else if (data[4] == 0x01) {
+				readButtonData[i] = true;
 			}
 		}
 	} else if (data[6] == 0x02) {
@@ -79,11 +86,21 @@ void DualShock3::read() {
 			assert(data.empty());
 		}
 		for (int i = 0; i < NumSticks; ++i) {
-			if (data[7] == i) {
+			int j = i;
+			if (data[7] == 0x0c || data[7] == 0x0d) {
+				j += 8;
+			}
+			if (data[7] == j) {
 				readStickData[i] = data[5];
-				if (readStickData[i] >= 128) {
+				if (readStickData[i] >= 128) 
 					readStickData[i] -= 256;
-				}
+				if (precisionFlag) {
+					readStickData[i] *= 0x100;
+					readStickData[i] += data[4];
+					if (i != j) 
+						readStickData[i] += 32767;
+				} else if (i != j) 
+					readStickData[i] += 128;
 			}
 		}
 	}

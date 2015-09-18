@@ -8,12 +8,14 @@
 
 namespace RPDS3{
 	enum ButtonsNum {SELECT, LEFT_STICK, RIGHT_STICK, START, UP, RIGHT, DOWN, LEFT, L2, R2, L1, R1, TRIANGLE, CIRCLE, CROSS, SQUARE, NumButtons};
-	enum SticksNum {LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, NumSticks};
+	enum SticksNum {LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, LEFT_T, RIGHT_T, NumSticks};
 	class DualShock3 {
 	public:
 		DualShock3();
-		DualShock3(const char*);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
-		void init(const char*);
+		DualShock3(bool);
+		DualShock3(const char*, bool precision = false);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		void init(const char*, bool);
+		void precisionMode(bool);
 		void read();
 		void readLoop();
 		void update();		// コントローラの状態を更新 
@@ -27,6 +29,7 @@ namespace RPDS3{
 		std::fstream JoyStick;
 		bool loopFlag;
 		bool yReverse;
+		static bool precisionFlag;
 		static bool threadFlag;
 		std::thread readThread;
 		static bool readButtonData[NumButtons];
