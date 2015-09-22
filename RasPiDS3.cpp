@@ -32,6 +32,8 @@ DualShock3::DualShock3(const char* fileName, bool precision, int timeout) {
 }
 
 void DualShock3::init(const char* fileName, bool precision, int timeout) {
+	cout << "timeout :";
+	cout << timeout << endl;
 	if (threadFlag)
 		return;
 	precisionFlag = precision;
@@ -45,7 +47,7 @@ void DualShock3::init(const char* fileName, bool precision, int timeout) {
 		stickData[i] = false;
 	}
 	auto startTime = chrono::system_clock::now();
-	bool timeoutFlag = true;
+	connectedFlag = false;
 	cout << "Connect DualShock3." << endl;
 	for (;;) {
 		if (timeout) {
@@ -57,7 +59,7 @@ void DualShock3::init(const char* fileName, bool precision, int timeout) {
 			JoyStick.open(fileName);
 			if (JoyStick.is_open()) {
 				cout << "Connected." << endl;
-				timeoutFlag = false;
+				connectedFlag = true;
 				break;
 			}
 		}
@@ -66,13 +68,17 @@ void DualShock3::init(const char* fileName, bool precision, int timeout) {
 		}
 	}
 	yReverse = false;
-	loopFlag = true;
-	threadFlag = true;
-	if (timeoutFlag) {
+	if (!connectedFlag) {
 		cout << "TimeOut." << endl;
 	} else {
-	readThread = thread([&]{ readLoop(); });
+		loopFlag = true;
+		threadFlag = true;
+		readThread = thread([&]{ readLoop(); });
 	}
+}
+
+bool DualShock3::connectedCheck() {
+	return connectedFlag;
 }
 
 void DualShock3::precisionMode(bool precision) {

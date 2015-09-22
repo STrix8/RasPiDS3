@@ -19,6 +19,7 @@ namespace RPDS3{
 		DualShock3(bool, int timeout = 0);
 		DualShock3(const char*, bool precision = false, int timeout = 0);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
 		void init(const char*, bool, int);
+		bool connectedCheck();
 		void precisionMode(bool precision = true);
 		void read();
 		void readLoop();
@@ -34,6 +35,7 @@ namespace RPDS3{
 		std::fstream JoyStick;
 		bool loopFlag;
 		bool yReverse;
+		bool connectedFlag;
 		static bool precisionFlag;
 		static bool threadFlag;
 		std::thread readThread;
