@@ -1,8 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <thread>
-#include <cstring>
 #include <cassert>
+#include <chrono>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <thread>
 #include <vector>
 #include "RasPiDS3.hpp"
 
@@ -20,17 +21,17 @@ bool DualShock3::beforeButtonData[NumButtons] = {};
 bool DualShock3::precisionFlag = false;
 
 DualShock3::DualShock3() {
-	init("/dev/input/js0", false);
+	init("/dev/input/js0", false, 0);
 }
 
-DualShock3::DualShock3(bool precision) {
-	init("/dev/input/js0", precision);
+DualShock3::DualShock3(bool precision, int timeout) {
+	init("/dev/input/js0", precision, timeout);
 }
-DualShock3::DualShock3(const char* fileName, bool precision) {
-	init(fileName, precision);
+DualShock3::DualShock3(const char* fileName, bool precision, int timeout) {
+	init(fileName, precision, timeout);
 }
 
-void DualShock3::init(const char* fileName, bool precision) {
+void DualShock3::init(const char* fileName, bool precision, int timeout) {
 	if (threadFlag)
 		return;
 	precisionFlag = precision;
@@ -43,23 +44,35 @@ void DualShock3::init(const char* fileName, bool precision) {
 		readStickData[i] = false;
 		stickData[i] = false;
 	}
+	auto startTime = chrono::system_clock::now();
+	bool timeoutFlag = true;
 	cout << "Connect DualShock3." << endl;
 	for (;;) {
+		if (timeout) {
+			if (chrono::time_point<chrono::system_clock>(startTime + chrono::seconds(timeout)) < chrono::system_clock::now()) {
+				break;
+			}
+		}
 		try {
 			JoyStick.open(fileName);
 			if (JoyStick.is_open()) {
 				cout << "Connected." << endl;
+				timeoutFlag = false;
 				break;
 			}
 		}
-		catch (...) {
+		catch (ifstream::failure error) {
 			continue;
 		}
 	}
 	yReverse = false;
 	loopFlag = true;
 	threadFlag = true;
+	if (timeoutFlag) {
+		cout << "TimeOut." << endl;
+	} else {
 	readThread = thread([&]{ readLoop(); });
+	}
 }
 
 void DualShock3::precisionMode(bool precision) {

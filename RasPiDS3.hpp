@@ -16,9 +16,9 @@ namespace RPDS3{
 	class DualShock3 {
 	public:
 		DualShock3();
-		DualShock3(bool);
-		DualShock3(const char*, bool precision = false);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
-		void init(const char*, bool);
+		DualShock3(bool, int timeout = 0);
+		DualShock3(const char*, bool precision = false, int timeout = 0);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		void init(const char*, bool, int);
 		void precisionMode(bool precision = true);
 		void read();
 		void readLoop();
