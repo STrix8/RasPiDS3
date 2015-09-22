@@ -32,8 +32,6 @@ DualShock3::DualShock3(const char* fileName, bool precision, int timeout) {
 }
 
 void DualShock3::init(const char* fileName, bool precision, int timeout) {
-	cout << "timeout :";
-	cout << timeout << endl;
 	if (threadFlag)
 		return;
 	precisionFlag = precision;
