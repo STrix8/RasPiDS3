@@ -23,9 +23,16 @@ bool RPDS3::Dualshock3::connectedCheck()
 * コントローラと接続出来たかどうかを返します.
 
 ```cpp
-void precisionMode(bool precision = true)
+void RPDS3::Dualshock3::precisionMode(bool precision = true)
 ```
 * 精密モードの切り替えを行います.
+
+```cpp
+void RPDS3::DualShock3::yReverseSet(bool setVar = true)
+```
+* スティックのY軸の値の符号を反転させます.
+    * デフォルトだと奥が負で手前が正なのでそれだとちょっと使いにくい人向け.
+    * **値は-127~128になります**
 
 ```cpp
 void RPDS3::DualShock3::update()
