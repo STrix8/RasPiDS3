@@ -1,10 +1,10 @@
-// RaspberryPiでDualShock3の信号を読取る 
+// RaspberryPiでDualShock3の信号を読取る
 #pragma once
 
 #include <fstream>
 #include <thread>
 
-#define UPDATELOOP(c, x) for((c).update(); (x); (c).update())	// コントローラcの状態をupdateしながら条件xでループ 
+#define UPDATELOOP(c, x) for((c).update(); (x); (c).update())	// コントローラcの状態をupdateしながら条件xでループ
 
 namespace RPDS3{
 	enum ButtonsNum {SELECT, LEFT_STICK, RIGHT_STICK, START, UP, RIGHT, DOWN, LEFT, L2, R2, L1, R1, TRIANGLE, CIRCLE, CROSS, SQUARE};
@@ -17,21 +17,21 @@ namespace RPDS3{
 	public:
 		DualShock3();
 		DualShock3(bool, int timeout = 0);
-		DualShock3(const char*, bool precision = false, int timeout = 0);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0 
+		DualShock3(const char*, bool precision = false, int timeout = 0);	// 必要ならファイル名を入れる デフォルトは/dev/input/js0
 		void init(const char*, bool, int);
 		bool connectedCheck();
 		void precisionMode(bool precision = true);
 		void read();
-		void readLoop();
-		void update();		// コントローラの状態を更新 
+		void update();		// コントローラの状態を更新
 		void yReverseSet(bool setVar = true);
-		bool button(ButtonsNum, bool onlyFlag = false);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す 
+		bool button(ButtonsNum, bool onlyFlag = false);	// 指定されたボタンが押されているか返す 第2引数がtrueだとそのボタンだけが押されている場合のみtrueを返す
 		bool press(ButtonsNum);
 		bool release(ButtonsNum);
-		int stick(SticksNum);	// 指定されたスティックの状態を返す 
+		int stick(SticksNum);	// 指定されたスティックの状態を返す
 		int acceleration(AxisNum);
 		virtual ~DualShock3();
 	private:
+		void readLoop();
 		std::fstream JoyStick;
 		bool loopFlag;
 		bool yReverse;
