@@ -10,16 +10,6 @@
 using namespace std;
 using namespace RPDS3;
 
-bool DualShock3::threadFlag = false;
-bool DualShock3::readButtonData[NumButtons] = {};
-int DualShock3::readStickData[NumSticks] = {};
-int DualShock3::readAxisData[NumAxis] = {};
-bool DualShock3::buttonData[NumButtons] = {};
-int DualShock3::stickData[NumSticks] = {};
-int DualShock3::axisData[NumAxis] = {};
-bool DualShock3::beforeButtonData[NumButtons] = {};
-bool DualShock3::precisionFlag = false;
-
 DualShock3::DualShock3() {
 	init("/dev/input/js0", false, 0);
 }
@@ -32,8 +22,6 @@ DualShock3::DualShock3(const char* fileName, bool precision, int timeout) {
 }
 
 void DualShock3::init(const char* fileName, bool precision, int timeout) {
-	if (threadFlag)
-		return;
 	precisionFlag = precision;
 	loopFlag = false;
 	for (int i = 0; i < NumButtons; ++i) {
@@ -70,7 +58,6 @@ void DualShock3::init(const char* fileName, bool precision, int timeout) {
 		cout << "TimeOut." << endl;
 	} else {
 		loopFlag = true;
-		threadFlag = true;
 		readThread = thread([&]{ readLoop(); });
 	}
 }
@@ -183,7 +170,6 @@ DualShock3::~DualShock3() {
 	loopFlag = false;
 	readThread.join();
 	JoyStick.close();
-	threadFlag = false;
 }
 
 bool DualShock3::press(ButtonsNum Button) {

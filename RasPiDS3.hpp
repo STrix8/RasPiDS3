@@ -36,15 +36,15 @@ namespace RPDS3{
 		bool loopFlag;
 		bool yReverse;
 		bool connectedFlag;
-		static bool precisionFlag;
-		static bool threadFlag;
+		bool precisionFlag;
+		bool threadFlag;
 		std::thread readThread;
-		static bool readButtonData[NumButtons];
-		static int readStickData[NumSticks];
-		static int readAxisData[NumAxis];
-		static bool buttonData[NumButtons];
-		static int stickData[NumSticks];
-		static int axisData[NumAxis];
-		static bool beforeButtonData[NumButtons];
+		bool readButtonData[NumButtons];
+		int readStickData[NumSticks];
+		int readAxisData[NumAxis];
+		bool buttonData[NumButtons];
+		int stickData[NumSticks];
+		int axisData[NumAxis];
+		bool beforeButtonData[NumButtons];
 	};
 }
