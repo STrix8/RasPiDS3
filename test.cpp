@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "RasPiDS3.hpp"
 
 using namespace std;
@@ -21,6 +22,7 @@ int main(void) {
 			cout << Controller.acceleration(AxisNum(j)) << " ";
 		}
 		cout << endl;
+		usleep(14000);
 	}
 	return 0;
 }
