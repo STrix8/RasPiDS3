@@ -88,11 +88,12 @@ void DualShock3::read() {
 			}
 		}
 	} else if (data[6] == 0x02) {
-		if (data[7] > 0x10) {
+/*		if (data[7] > 0x10) {
 			data.clear();
 			assert(data.empty());
 		}
-		if ((data[7] >= 0 && data[7] <= NumSticks) || data[7] == 0x0c || data[7] == 0x0d) {
+		*/
+		if ((data[7] >= 0 && data[7] < NumSticks - 2) || data[7] == 0x0c || data[7] == 0x0d) {
 			int index = data[7];
 			if (data[7] == 0x0c || data[7] == 0x0d) {
 				index -= 8;
@@ -103,17 +104,21 @@ void DualShock3::read() {
 				readStickData[index] += data[4];
 				if (readStickData[index] >= 32768) 
 					readStickData[index] -= 65536;
+				/*
 				if (data[7] != index)
 					readStickData[index] += 32767;
+				*/
 			} else {
 				if (readStickData[index] >= 128) 
 					readStickData[index] -= 256;
+				/*
 				if (data[7] != index)
 					readStickData[index] += 128;
+				*/
 			}
 		}
-		if (data[7] >= 0x17 && data[7] <= 0x19) {
-			int index = data[7] - 0x17;
+		if (data[7] >= 0x04 && data[7] <= 0x06) {
+			int index = data[7] - 0x04;
 			if (precisionFlag)
 				readAxisData[index] = data[4] + data[5] * 0x100;
 				if (readAxisData[index] >= 32768) 
