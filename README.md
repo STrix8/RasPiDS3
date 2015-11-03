@@ -5,8 +5,6 @@
     * C++11に対応したコンパイラでつかおうね
 * DualShock3クラスのインスタンスを作って使ってください。
 * RasPiとDualShock3のペアリングは[工作と小物のがらくた部屋: Raspberry Pi で Dualshock3 (Bluetooth接続ゲームコントローラ）]( http://junkroom2cyberrobotics.blogspot.jp/2013/03/raspberry-pi-dualshock3-bluetooth.html)を参考にするといいかもしれない.
-* Raspberry Pi2だとRT, LTの値, 加速度の値がおかしくなることがあるのを確認しています.
-    * 値の変化の仕方は問題なさそうな感じなので頑張れば使えるかもしれない.
 
 ## 名状しがたいリファレンスのようなもの
 ```cpp
