@@ -14,7 +14,7 @@
 4. ビルドが通ったら,USBケーブルでDualShock3とRasPiを接続して"sudo ./sixpair"としてペアリング 済んだらケーブルをはずす
 5. "wget "https://sourceforge.net/projects/qtsixa/files/QtSixA%201.5.1/QtSixA-1.5.1-src.tar.gz/download" -O QtSixA-src.tar.gz"などしてQtSixAをダウンロード, "tar zxvf QtSixA-src.tar.gz"などしてビルド
 6. QtSixA-1.5.1/sixad
-7. ここでshared.hを編集し、```cpp #define SHARED_H```のあと、20行目あたりに```cpp #include <unistd.h>```と追記する。こうしないと後のビルドが通らない
+7. ここでshared.hを編集し、```#define SHARED_H```のあと、20行目あたりに```#include <unistd.h>```と追記する。こうしないと後のビルドが通らない
 8. "make"でビルド"sudo make install"でインストール
 9. "sudo sixad -start"で起動し、さきほどペアリングしたDualShock3のPSボタンを押して電源を入れ、ペアリングされるのを確認する
 
