@@ -55,7 +55,7 @@ void RPDS3::DualShock3::update()
 ```
 * ボタン, スティック, 加速度の情報が更新されます。
     * このメソッドを呼ばないと更新されません.
-* こまめに呼んでやってください。
+* プログラムのメインループに書くなどしてこまめに呼んでやってください。
 
 ```cpp
 void RPDS3::DualShock3::precisionMode(bool precision = true)
