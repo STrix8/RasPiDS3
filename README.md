@@ -8,8 +8,8 @@
 ---
 ## RasPiとDualShock3のペアリング方法
 1. ```sudo apt-get install bluetooth bluez-utils bluez-compat bluez-hcidump libusb-dev libbluetooth-dev```のようにして必要なものををインストールする
-   * 必要に応じてこの前に```sudo apt-get update``しておく
-2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んでで"bluetooth in running."のメッセージが変えてくるのを確認する
+   * 必要に応じてこの前に```sudo apt-get update```しておく
+2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んで"bluetooth in running."のメッセージが変えてくるのを確認する
    * このあとsixadをインストールして起動するとここが"bluetooth is not running ..."になるが気にしなくてよい
 3. ```wget "http://www.pabr.org/sixlinux/sixpair.c" -O sixpair.c``` などしてペアリングツールをダウンロード, ```gcc -o sixpair sixpair.c -lusb```でビルド
 4. ビルドが通ったら,USBケーブルでDualShock3とRasPiを接続して```sudo ./sixpair```としてペアリング 済んだらケーブルをはずす
@@ -18,6 +18,12 @@
 7. ここでshared.hを編集し、```#define SHARED_H```のあと、20行目あたりに```#include <unistd.h>```と追記する。こうしないと後のビルドが通らない
 8. ```make```でビルド```sudo make install```でインストール
 9. ```sudo sixad -start```で起動し、さきほどペアリングしたDualShock3のPSボタンを押して電源を入れ、ペアリングされるのを確認する
+
+### 繋がらない場合
+* ```lsusb```などしてRasPiからBluetoothドングルが認識されているか確認してください
+* ```hciconfig```などしてドングルが"UP RUNNING PSCAN ISCAN"となっていることを確認してください
+   * "DOWN"と表示された場合, ```sudo hciconfig hci0 up piscan```などコマンドラインに打ちこむ
+   * "UP RUNNNING"とだけ表示された場合, ```sudo hciconfig hci0 piscan```などコマンドラインに打ちこむ  
 
  参考 [工作と小物のがらくた部屋: Raspberry Pi で Dualshock3 (Bluetooth接続ゲームコントローラ）]( http://junkroom2cyberrobotics.blogspot.jp/2013/03/raspberry-pi-dualshock3-bluetooth.html)
 
