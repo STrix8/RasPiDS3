@@ -7,7 +7,8 @@
  
 ---
 ## RasPiとDualShock3のペアリング方法
-1. apt-getなどを利用して bluetooth, bluez-utils, bluez-compat, bluez-hcidump, libusb-dev, libbluetooth-devをインストールする
+1. ```sudo apt-get install bluetooth bluez-utils bluez-compat bluez-hcidump libusb-dev libbluetooth-dev```のようにして必要なものををインストールする
+   * 必要に応じてこの前に```sudo apt-get update``しておく
 2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んでで"bluetooth in running."のメッセージが変えてくるのを確認する
    * このあとsixadをインストールして起動するとここが"bluetooth is not running ..."になるが気にしなくてよい
 3. ```wget "http://www.pabr.org/sixlinux/sixpair.c" -O sixpair.c``` などしてペアリングツールをダウンロード, ```gcc -o sixpair sixpair.c -lusb```でビルド
