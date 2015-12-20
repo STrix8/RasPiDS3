@@ -8,17 +8,18 @@
 ---
 ## RasPiとDualShock3のペアリング方法
 1. apt-getなどを利用して bluetooth, bluez-utils, bluez-compat, bluez-hcidump, libusb-dev, libbluetooth-devをインストールする
-2. コマンドラインに"/etc/init.d/bluetooth"と打ち込んでで"bluetooth in running."のメッセージが変えてくるのを確認する
+2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んでで"bluetooth in running."のメッセージが変えてくるのを確認する
    * このあとsixadをインストールして起動するとここが"bluetooth is not running ..."になるが気にしなくてよい
-3. "wget "http://www.pabr.org/sixlinux/sixpair.c" -O sixpair.c" などしてペアリングツールをダウンロード, "gcc -o sixpair sixpair.c -lusb"でビルド
-4. ビルドが通ったら,USBケーブルでDualShock3とRasPiを接続して"sudo ./sixpair"としてペアリング 済んだらケーブルをはずす
-5. "wget "https://sourceforge.net/projects/qtsixa/files/QtSixA%201.5.1/QtSixA-1.5.1-src.tar.gz/download" -O QtSixA-src.tar.gz"などしてQtSixAをダウンロード, "tar zxvf QtSixA-src.tar.gz"などしてビルド
-6. QtSixA-1.5.1/sixad
+3. ```wget "http://www.pabr.org/sixlinux/sixpair.c" -O sixpair.c``` などしてペアリングツールをダウンロード, ```gcc -o sixpair sixpair.c -lusb```でビルド
+4. ビルドが通ったら,USBケーブルでDualShock3とRasPiを接続して```sudo ./sixpair```としてペアリング 済んだらケーブルをはずす
+5. ```wget "https://sourceforge.net/projects/qtsixa/files/QtSixA%201.5.1/QtSixA-1.5.1-src.tar.gz/download" -O QtSixA-src.tar.gz```などしてQtSixAをダウンロード, ```tar zxvf QtSixA-src.tar.gz```などしてビルド
+6. QtSixA-1.5.1/sixadに移動する
 7. ここでshared.hを編集し、```#define SHARED_H```のあと、20行目あたりに```#include <unistd.h>```と追記する。こうしないと後のビルドが通らない
-8. "make"でビルド"sudo make install"でインストール
-9. "sudo sixad -start"で起動し、さきほどペアリングしたDualShock3のPSボタンを押して電源を入れ、ペアリングされるのを確認する
+8. ```make```でビルド```sudo make install```でインストール
+9. ```sudo sixad -start```で起動し、さきほどペアリングしたDualShock3のPSボタンを押して電源を入れ、ペアリングされるのを確認する
 
-参考 [工作と小物のがらくた部屋: Raspberry Pi で Dualshock3 (Bluetooth接続ゲームコントローラ）]( http://junkroom2cyberrobotics.blogspot.jp/2013/03/raspberry-pi-dualshock3-bluetooth.html)
+ 参考 [工作と小物のがらくた部屋: Raspberry Pi で Dualshock3 (Bluetooth接続ゲームコントローラ）]( http://junkroom2cyberrobotics.blogspot.jp/2013/03/raspberry-pi-dualshock3-bluetooth.html)
+
 ---
 ## 名状しがたいリファレンスのようなもの
 ```cpp
