@@ -29,7 +29,8 @@ RPDS3::DualShock3::DualShock3(const char* devFileName = "/dev/input/js0", bool p
 * コンストラクタです.
 * コントローラが接続されるまでtimeout秒待ちます.
     * timeoutが0だとずっと待ちます
-* precisionをtrueにすると精密モードになり、アナログ値が65536段階で見られるようになります.
+* precisionをtrueにすると精密モードになり、アナログ値が65536段階の数値で返ってくるようになります. 
+    * おそらく精密モードにしても1024段階くらいでしか変化しないです
     * falseだと256段階です.
 
 ```cpp
