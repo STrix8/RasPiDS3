@@ -2,15 +2,17 @@
 * RasPiでDualShock3の信号を読んでC++で使えるようにしてくれるすごいやつだよ
 * **RasPiにBluetoothのドングル等が刺さっていること, sixadがインストールされて動いていることが前提です**
 * GCCとかでコンパイルするときは　-std=c++11 -pthread のオプションをつける
-    * C++11に対応したコンパイラでつかおうね
+	* C++11に対応したコンパイラでつかおうね
 * DualShock3クラスのインスタンスを作って使ってください。
- 
+* [RobotUtilityforRaspberryPi](https://github.com/Owl8/RobotUtilityforRaspberryPi)に移行しました。いろいろ一緒になってるのでそっちを使うようにしてください。
+	* クラスの名前とか変わってますが使い方は変わってません。
+
 ---
 ## RasPiとDualShock3のペアリング方法
 1. ```sudo apt-get install bluetooth bluez-utils bluez-compat bluez-hcidump libusb-dev libbluetooth-dev```のようにして必要なものををインストールする
-   * 必要に応じてこの前に```sudo apt-get update```しておく
+	* 必要に応じてこの前に```sudo apt-get update```しておく
 2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んで"bluetooth in running."のメッセージが変えてくるのを確認する
-   * このあとsixadをインストールして起動するとここが"bluetooth is not running ..."になるが気にしなくてよい
+	* このあとsixadをインストールして起動するとここが"bluetooth is not running ..."になるが気にしなくてよい
 3. ```wget "http://www.pabr.org/sixlinux/sixpair.c" -O sixpair.c``` などしてペアリングツールをダウンロード, ```gcc -o sixpair sixpair.c -lusb```でビルド
 4. ビルドが通ったら,USBケーブルでDualShock3とRasPiを接続して```sudo ./sixpair```としてペアリング 済んだらケーブルをはずす
 5. ```wget "https://sourceforge.net/projects/qtsixa/files/QtSixA%201.5.1/QtSixA-1.5.1-src.tar.gz/download" -O QtSixA-src.tar.gz```などしてQtSixAをダウンロード, ```tar zxvf QtSixA-src.tar.gz```などしてビルド
@@ -22,8 +24,8 @@
 ### 繋がらない場合
 * ```lsusb```などしてRasPiからBluetoothドングルが認識されているか確認してください
 * ```hciconfig```などしてドングルが"UP RUNNING PSCAN ISCAN"となっていることを確認してください
-   * "DOWN"と表示された場合, ```sudo hciconfig hci0 up piscan```などコマンドラインに打ちこむ
-   * "UP RUNNNING"とだけ表示された場合, ```sudo hciconfig hci0 piscan```などコマンドラインに打ちこむ  
+	* "DOWN"と表示された場合, ```sudo hciconfig hci0 up piscan```などコマンドラインに打ちこむ
+	* "UP RUNNNING"とだけ表示された場合, ```sudo hciconfig hci0 piscan```などコマンドラインに打ちこむ  
 
  参考 [工作と小物のがらくた部屋: Raspberry Pi で Dualshock3 (Bluetooth接続ゲームコントローラ）]( http://junkroom2cyberrobotics.blogspot.jp/2013/03/raspberry-pi-dualshock3-bluetooth.html)
 
@@ -34,10 +36,10 @@ RPDS3::DualShock3::DualShock3(const char* devFileName = "/dev/input/js0", bool p
 ```
 * コンストラクタです.
 * コントローラが接続されるまでtimeout秒待ちます.
-    * timeoutが0だとずっと待ちます
+	* timeoutが0だとずっと待ちます
 * precisionをtrueにすると精密モードになり、アナログ値が65536段階の数値で返ってくるようになります. 
-    * おそらく精密モードにしても1024段階くらいでしか変化しないです
-    * falseだと256段階です.
+	* おそらく精密モードにしても1024段階くらいでしか変化しないです
+	* falseだと256段階です.
 
 ```cpp
 bool RPDS3::Dualshock3::connectedCheck()
