@@ -11,11 +11,11 @@
 ## RasPiとDualShock3のペアリング方法
 1. ```sudo apt-get install bluetooth bluez-utils bluez-compat bluez-hcidump libusb-dev libbluetooth-dev```のようにして必要なものををインストールする
 	* 必要に応じてこの前に```sudo apt-get update```しておく
-2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んで"bluetooth in running."のメッセージが変えてくるのを確認する
+2. コマンドラインに```/etc/init.d/bluetooth```と打ち込んで"bluetooth in running."のメッセージが返ってくるのを確認する
 	* このあとsixadをインストールして起動するとここが"bluetooth is not running ..."になるが気にしなくてよい
 3. ```wget "http://www.pabr.org/sixlinux/sixpair.c" -O sixpair.c``` などしてペアリングツールをダウンロード, ```gcc -o sixpair sixpair.c -lusb```でビルド
 4. ビルドが通ったら,USBケーブルでDualShock3とRasPiを接続して```sudo ./sixpair```としてペアリング 済んだらケーブルをはずす
-5. ```wget "https://sourceforge.net/projects/qtsixa/files/QtSixA%201.5.1/QtSixA-1.5.1-src.tar.gz/download" -O QtSixA-src.tar.gz```などしてQtSixAをダウンロード, ```tar zxvf QtSixA-src.tar.gz```などしてビルド
+5. ```wget "https://sourceforge.net/projects/qtsixa/files/QtSixA%201.5.1/QtSixA-1.5.1-src.tar.gz/download" -O QtSixA-src.tar.gz```などしてQtSixAをダウンロード, ```tar zxvf QtSixA-src.tar.gz```などして展開する
 6. QtSixA-1.5.1/sixadに移動する
 7. ここでshared.hを編集し、```#define SHARED_H```のあと、20行目あたりに```#include <unistd.h>```と追記する。こうしないと後のビルドが通らない
 8. ```make```でビルド```sudo make install```でインストール
